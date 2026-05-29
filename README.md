@@ -45,7 +45,7 @@ Depois abre no navegador:
 http://127.0.0.1:8000/login.php
 ```
 
-PRESTA ATENÇÃO: acessar apenas:
+PRESTA ATENÇÃO:
 
 ```text
 http://127.0.0.1:8000
