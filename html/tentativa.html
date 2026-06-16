@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tentativa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/jogo.css" />
+</head>
+<body>
+  <main class="screen screen--attempt">
+    <section class="screen__panel" aria-labelledby="title-attempt">
+      <header class="screen__header">
+        <h1 class="screen__title screen__title--attempt" id="title-attempt">Tentativa</h1>
+      </header>
+
+      <article class="screen__card">
+        <div class="screen__top">
+          <h2>Digite a palavra abaixo:</h2>
+          <p class="screen__time">Tempo:</p>
+        </div>
+
+        <div class="screen__input-wrap">
+          <input
+            class="screen__input"
+            type="text"
+            name="tentativa"
+            aria-label="Digite a palavra abaixo"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      </article>
+
+      <p class="screen__result" aria-live="polite"></p>
+    </section>
+  </main>
+</body>
+</html>
