@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minhas Ligas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/ligas.css" />
+</head>
+<body>
+  <main class="container" aria-labelledby="titulo-minhas-ligas">
+    <header>
+      <h1 id="titulo-minhas-ligas">Minhas Ligas</h1>
+    </header>
+
+    <section class="card" aria-labelledby="titulo-participando">
+      <h2 id="titulo-participando">Ligas Participando</h2>
+
+      <div class="liga-item">
+        <span>Liga Amigos</span>
+        <!-- Pegar o nome/Info da liga no DB -->
+        <a href="detalhes-liga.html">Ver</a>
+      </div>
+
+      <div class="liga-item">
+        <span>Liga Faculdade</span>
+        <!-- Pegar o nome/Info da liga no DB -->
+        <a href="detalhes-liga.html">Ver</a>
+      </div>
+    </section>
+
+    <nav class="acoes" aria-label="Ações de ligas">
+      <a href="criar-liga.html" class="btn">Criar Liga</a>
+      <a href="entrar-liga.html" class="btn">Entrar em Liga</a>
+    </nav>
+
+    <section class="card" aria-labelledby="titulo-pontuacao">
+      <h2 id="titulo-pontuacao">Pontuação Geral</h2>
+      <!-- Pegar o Info  no DB -->
+
+      <table>
+        <thead>
+          <tr>
+            <th>Jogador</th>
+            <!-- Pegar o Info  no DB -->
+            <th>Total</th>
+            <!-- Pegar o Info  no DB -->
+            <th>Semanal</th>
+            <!-- Pegar o Info  no DB -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>João</td>
+            <!-- Pegar o Info  no DB -->
+            <td>1500</td>
+            <!-- Pegar o Info  no DB -->
+            <td>120</td>
+            <!-- Pegar a Info  no DB -->
+          </tr>
+
+          <tr>
+            <td>Maria</td>
+            <!-- Pegar o Info  no DB -->
+            <td>1400</td>
+            <!-- Pegar o Info  no DB -->
+            <td>100</td>
+            <!-- Pegar o Info  no DB -->
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
