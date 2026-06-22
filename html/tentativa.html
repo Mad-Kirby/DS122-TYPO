@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/jogo.css" />
+  <script type="module" src="../js/jogo.js" defer></script>
 </head>
 <body>
   <main class="screen screen--attempt">
@@ -18,11 +19,13 @@
 
       <article class="screen__card">
         <div class="screen__top">
-          <h2>Digite a palavra abaixo:</h2>
-          <p class="screen__time">Tempo:</p>
+          <h2>Memorize a palavra abaixo:</h2>
+          <p class="screen__time">Tempo: <span></span></p> 
+          <p class="screen__errors">Erros: <span></span></p>
         </div>
 
         <div class="screen__input-wrap">
+          <p class="memorize__field"></p>
           <input
             class="screen__input"
             type="text"
