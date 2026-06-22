@@ -1,6 +1,6 @@
 import { selecionaPalavras } from "./dicionario.js";
 
-const campoMem = document.querySelector(".memorize__field");
+const screen_mem = document.querySelector(".memorize__field");
 const screen_time = document.querySelector(".screen__time span");
 const screen_input = document.querySelector(".screen__input");
 const screen_errors = document.querySelector(".screen__errors span");
@@ -10,18 +10,18 @@ const screen_errors = document.querySelector(".screen__errors span");
 function Estatistica() {
     this.resp = "";
     this.multiplicador = 1;
-    this.tempResp = 0;
+    this.tempo_resp = 0;
     this.acerto = 0;
-    this.ptsTotal = 0;
-    this.changeResp =  (novaResp) => { return this.resp = novaResp; }
-    this.incrementaTempR =     () => { return this.tempResp++; }
-    this.zeraTempR =           () => { return this.tempResp = 0; }
-    this.incrementaMult =      () => { return this.multiplicador++; }
-    this.resetaMultiplicador = () => { return this.multiplicador = 1; }
-    this.changeAcerto = (percent) => { return this.acerto = percent; }
-    this.calcTotalPts = () => {
-        return this.ptsTotal += Math.floor(
-            10 * this.acerto * (1 + 0.95 ** this.tempResp) * this.multiplicador
+    this.pts_total = 0;
+    this.mudarResp =  (novaResp) => { return this.resp = novaResp; }
+    this.incrementarTempR =     () => { return this.tempo_resp++; }
+    this.resetarTemR =           () => { return this.tempo_resp = 0; }
+    this.incrementarMult =      () => { return this.multiplicador++; }
+    this.resetarMultiplicador = () => { return this.multiplicador = 1; }
+    this.mudarAcerto = (percent) => { return this.acerto = percent; }
+    this.calcularTotalPts = () => {
+        return this.pts_total += Math.floor(
+            10 * this.acerto * (1 + 0.95 ** this.tempo_resp) * this.multiplicador
         );
     }
 }
@@ -29,7 +29,7 @@ function Estatistica() {
 const estatisticas = new Estatistica();
 
 /* -- comportamento do campo das palavras -- */
-campoMem.addEventListener("copy", (e) => { e.preventDefault() });
+screen_mem.addEventListener("copy", (e) => { e.preventDefault() });
 
 /* -- comportamento do campo de resposta -- */
 screen_input.addEventListener("paste", (e) => { e.preventDefault(); });
@@ -44,93 +44,92 @@ screen_input.addEventListener("input", (e) => {
 screen_input.addEventListener("keydown", handler);
 function handler(e) {
     if (e.code === "Enter") {
-        setTimerZero();
+        reiniciarLoop();
     }
 }
 
 let erros = 0;
-const maxErros = 3;
-let memorize = true;
-let timerInterval;
+const max_erros = 3;
+let memoriza = true;
+let temporizador;
 
-const startCoundown = (tempoLimite) => {
-    clearInterval(timerInterval);
-    const targetTime = new Date().getTime() + (1000 * tempoLimite);
+const iniciarTemporizador = (tempo_limite) => {
+    clearInterval(temporizador);
+    const tempo_max = new Date().getTime() + (1000 * tempo_limite);
 
-    function updateCountdown() {
+    function atualizarTempo() {
         const agora = new Date().getTime();
-        const distancia = targetTime - agora;
+        const distancia = tempo_max - agora;
 
-        if (distancia <= 0) { setTimerZero(); return; }
+        if (distancia <= 0) { reiniciarLoop(); return; }
 
-        estatisticas.incrementaTempR();
+        estatisticas.incrementarTempR();
         const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
         screen_time.textContent = segundos;
     }
-    updateCountdown();
-    timerInterval = setInterval(updateCountdown, 1000);
+
+    atualizarTempo();
+    temporizador = setInterval(atualizarTempo, 1000);
 }
 
-const verifyAnswer = (input) => {
+const verificarResposta = (input) => {
     const entr = input.value.split(" ");
     const resp = estatisticas.resp.split(" ");
 
-    const comparaVet = (vet1, vet2) => {
+    const compararVet = (vet1, vet2) => {
         let i = 0;
-        vet1.forEach( (elemento, index) => {
-            console.log(`${elemento} | ${vet2[index]}`);
-            if (elemento === vet2[index]) i++;
+        vet1.forEach( (elemento) => {
+            if (vet2.includes( elemento )) i++;
         });
-        console.log(`${entr}|${resp} \n Corretas: ${i}`);
         return i;
     }
 
-    estatisticas.changeAcerto( comparaVet(entr, resp) / resp.length );
-    if ( estatisticas.multiplicador < 5 )
-        estatisticas.incrementaMult();
+    estatisticas.mudarAcerto( compararVet(entr, resp) / resp.length );
 
+    if ( estatisticas.multiplicador < 5 )
+        estatisticas.incrementarMult();
 
     if ( estatisticas.acerto !== 1 ) {
-        estatisticas.resetaMultiplicador();
+        estatisticas.resetarMultiplicador();
         erros++;
     }
 
-    estatisticas.calcTotalPts();
+    estatisticas.calcularTotalPts();
 }
 
-function setTimerZero() {
-    if (!memorize) {
-        memorize = true;
-        verifyAnswer(screen_input);
+function reiniciarLoop() {
+    if (!memoriza) {
+        memoriza = true;
+        verificarResposta(screen_input);
     }
     else {
-        memorize = false;
+        memoriza = false;
     }
-    estatisticas.zeraTempR();
-    controlGame();
+    estatisticas.resetarTemR();
+    controlarJogo();
 }
 
-const controlGame = () => {
-    screen_errors.textContent = `${erros}/${maxErros}`;
-    if (erros >= maxErros) {
-        clearInterval(timerInterval);
+const controlarJogo = () => {
+    screen_errors.textContent = `${erros}/${max_erros}`;
+    if (erros >= max_erros) {
+        clearInterval(temporizador);
         screen_input.removeEventListener("keydown", handler);
         screen_input.value = "";
         return;
     }
 
-    if (memorize) {
-        estatisticas.changeResp( String(selecionaPalavras(3)).replaceAll(',', ' ') );
-        campoMem.textContent = estatisticas.resp;
+    if (memoriza) {
+        estatisticas.mudarResp( String(selecionaPalavras(3)).replaceAll(',', ' ') );
+        screen_mem.textContent = estatisticas.resp;
         screen_input.value = "";
         screen_input.disabled = true;
-        startCoundown(2);
+        iniciarTemporizador(2);
     }
     else {
-        campoMem.textContent = "";
+        screen_mem.textContent = "";
         screen_input.disabled = false;
         screen_input.focus();
-        startCoundown(10);
+        iniciarTemporizador(10);
     }
 }
-controlGame();
+controlarJogo();
