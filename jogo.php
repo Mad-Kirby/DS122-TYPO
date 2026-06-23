@@ -1,5 +1,6 @@
 <?php
 $step = $_GET["step"] ?? "como-jogar";
+$pontos = isset($_GET["pontos"]) ? (int) $_GET["pontos"] : 0;
 
 if ($step == "tentativa-pts") {
   $step = "pontuacao";
@@ -73,11 +74,11 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
       </header>
 
       <article class="screen__card" aria-label="Pontuação da tentativa">
-        <p class="screen__score">PONTOS</p>
+        <p class="screen__score"><?php echo $pontos; ?> PONTOS</p>
       </article>
 
       <div class="screen__actions">
-        <a href="jogo.php?step=tentativa" class="screen__button">Continuar</a>
+        <a href="jogo.php?step=placar&pontos=<?php echo $pontos; ?>" class="screen__button">Continuar</a>
       </div>
     </section>
   </main>
@@ -102,16 +103,16 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
           <div class="scoreboard-table__body">
             <div class="scoreboard-row">
               <span id="nome-jogador">jogador</span>
-              <span id="pontuacao-final">pts</span>
+              <span id="pontuacao-final"><?php echo $pontos; ?> pts</span>
             </div>
           </div>
         </div>
       </article>
 
-      <div class="screen__actions screen__actions--scoreboard">
+        <div class="screen__actions screen__actions--scoreboard">
         <a href="jogo.php?step=como-jogar" class="screen__button">Jogar Novamente</a>
         <a href="login.php" class="screen__button">Sair</a>
-      </div>
+        </div>
     </section>
   </main>
 
