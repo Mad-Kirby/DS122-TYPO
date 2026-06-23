@@ -1,6 +1,6 @@
 <?php
 $step = $_GET["step"] ?? "como-jogar";
-$pontos = isset($_GET["pontos"]) ? (int) $_GET["pontos"] : 0;
+$pontos = isset($_POST["pontos"]) ? (int) $_POST["pontos"] : 0;
 
 if ($step == "tentativa-pts") {
   $step = "pontuacao";

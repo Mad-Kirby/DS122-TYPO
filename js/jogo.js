@@ -21,7 +21,6 @@ function Estatistica() {
     this.resetarMultiplicador = () => { return this.multiplicador = 1; }
     this.mudarAcerto = (percent) => { return this.acerto = percent; }
     this.calcularTotalPts = () => {
-        console.log(this);
         return this.pts_total += Math.floor(
             10 * this.acerto * (1 + 0.8 ** this.tempo_resp) * this.multiplicador
         );
@@ -117,7 +116,8 @@ const controlarJogo = () => {
         clearInterval(temporizador);
         screen_input.removeEventListener("keydown", handler);
         screen_input.value = "";
-        window.location.replace(`jogo.php?step=pontuacao&pontos=${estatisticas.pts_total}`);
+        
+        redirecionarTela();
     }
 
     if (memoriza) {
@@ -136,3 +136,20 @@ const controlarJogo = () => {
 }
 
 controlarJogo();
+
+function redirecionarTela() {
+    const form_post = document.createElement("form");
+    form_post.setAttribute('action', "jogo.php?step=pontuacao");
+    form_post.setAttribute('method', "POST");
+
+    const input_pts = document.createElement("input");
+    input_pts.setAttribute('type', "number");
+    input_pts.setAttribute('name', "pontos");
+    input_pts.value = estatisticas.pts_total;
+
+
+    document.body.append(form_post);
+    form_post.append(input_pts);
+
+    form_post.submit(); 
+}
