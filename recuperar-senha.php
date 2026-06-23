@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/autenticar.css" />
+  <script src="js/recuperar-senha.js" defer></script>
 </head>
 <body>
   <main class="auth-page">
@@ -17,10 +18,12 @@
       <form class="auth-form" action="cadastro.php?step=senha" method="post">
         <div class="field">
           <input type="text" id="nome" name="nome" placeholder="E-mail:" />
+          <p class="msg-erro" id="erro-nome"></p>
         </div>
 
         <div class="field">
           <input type="email" id="email" name="email" placeholder="Código de Recuperação:" />
+          <p class="msg-erro" id="erro-email"></p>
         </div>
 
         <button type="submit" class="btn-submit">Continuar</button>
