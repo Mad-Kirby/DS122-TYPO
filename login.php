@@ -25,7 +25,7 @@
         </div>
 
         <div class="field">
-          <input type="email" id="email" name="email" placeholder="Senha:" />
+          <input type="password" id="senha" name="senha" placeholder="Senha:" />
         </div>
 
         <button type="submit" class="btn-submit">Continuar</button>

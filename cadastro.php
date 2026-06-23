@@ -25,13 +25,13 @@ $step = $_GET["step"] ?? "dados";
       <?php if ($step == "senha") { ?>
 
         <form class="auth-form" action="login.php" method="post">
-          <div class="field">
-            <input type="text" id="nome" name="nome" placeholder="Senha:" />
-          </div>
+        <div class="field">
+            <input type="password" id="senha" name="senha" placeholder="Senha:"/>
+        </div>
 
-          <div class="field">
-            <input type="email" id="email" name="email" placeholder="Confirmar Senha:" />
-          </div>
+        <div class="field">
+            <input type="password" id="confirmar-senha" name="confirmar_senha" placeholder="Confirmar Senha:"/>
+        </div>
 
           <button type="submit" class="btn-submit">Criar Conta</button>
         </form>
