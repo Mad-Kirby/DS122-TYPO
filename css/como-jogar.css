@@ -5,6 +5,7 @@
   --text: #f7f7f4;
   --text-soft: rgba(247, 247, 244, 0.82);
   --cta: #d6cd00;
+  --cta2: #dfd600;
   --radius-xl: 32px;
   --radius-box: 28px;
   --radius-pill: 999px;
@@ -138,7 +139,7 @@ body {
   min-height: clamp(84px, 10vw, 110px);
   padding: 1rem 2rem;
   border-radius: 40px;
-  background: linear-gradient(180deg, #dfd600 0%, #d6cd00 100%);
+  background: linear-gradient(180deg, var(--cta2) 0%, var(--cta) 100%);
   color: #333340;
   font-size: clamp(1.7rem, 2.2vw, 3rem);
   font-weight: 800;

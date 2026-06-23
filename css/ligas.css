@@ -6,6 +6,7 @@
   --text-soft: rgba(247, 247, 244, 0.82);
   --muted: #C4C6D1;
   --yellow: #d6cd00;
+  --yellow2:#dfd600;
   --accent: #20a8bd;
   --radius-xl: 32px;
   --radius-box: 28px;
@@ -104,7 +105,7 @@ input:focus {
   justify-content: center;
   text-decoration: none;
   border: none;
-  background: linear-gradient(180deg, #dfd600 0%, #d6cd00 100%);
+  background: linear-gradient(180deg, var(--yellow2) 0%, var(--yellow) 100%);
   color: #333340;
   font-weight: 800;
   font-size: clamp(1.1rem, 1.5vw, 1.4rem);

@@ -5,6 +5,7 @@
   --text: #f7f7f4;
   --accent: #20a8bd;
   --cta: #d6cd00;
+  --cta2: #dfd600;
   --cta-text: #3b4057;
   --line: #d6cd00;
   --radius-xl: 32px;
@@ -298,7 +299,7 @@ body {
   padding: 1rem 2rem;
   border: none;
   border-radius: 40px;
-  background: linear-gradient(180deg, #dfd600 0%, #d6cd00 100%);
+  background: linear-gradient(180deg, var(--cta2) 0%, var(--cta) 100%);
   color: #333340;
   font-size: clamp(1.7rem, 2.2vw, 3rem);
   font-weight: 800;
