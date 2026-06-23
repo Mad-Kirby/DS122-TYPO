@@ -1,8 +1,80 @@
 <?php
 require_once "includes/auth.php";
+require_once "includes/conexao.php";
 
 $step = $_GET["step"] ?? "como-jogar";
-$pontos = isset($_POST["pontos"]) ? (int) $_POST["pontos"] : 0;
+$pontos = 0;
+$partida = null;
+$rankingGeral = [];
+
+if ($step === "salvar-pontuacao") {
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        header("Location: jogo.php?step=como-jogar");
+        exit;
+    }
+
+    $pontos = filter_input(INPUT_POST, "pontos", FILTER_VALIDATE_INT);
+
+    if ($pontos === false || $pontos === null || $pontos < 0) {
+        $pontos = 0;
+    }
+
+    if ($pontos > 100000) {
+        $pontos = 100000;
+    }
+
+    $sql = "INSERT INTO partidas (id_usuario, pontos) 
+            VALUES (:id_usuario, :pontos)";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(":id_usuario", $_SESSION["usuario_id"], PDO::PARAM_INT);
+    $stmt->bindValue(":pontos", $pontos, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $idPartida = $pdo->lastInsertId();
+
+    header("Location: jogo.php?step=pontuacao&id_partida=" . $idPartida);
+    exit;
+}
+
+if ($step === "pontuacao") {
+    $idPartida = filter_input(INPUT_GET, "id_partida", FILTER_VALIDATE_INT);
+
+    if ($idPartida) {
+        $sql = "SELECT id_partida, pontos, jogada_em
+                FROM partidas
+                WHERE id_partida = :id_partida
+                AND id_usuario = :id_usuario";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":id_partida", $idPartida, PDO::PARAM_INT);
+        $stmt->bindValue(":id_usuario", $_SESSION["usuario_id"], PDO::PARAM_INT);
+        $stmt->execute();
+
+        $partida = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($partida) {
+            $pontos = (int) $partida["pontos"];
+        }
+    }
+}
+
+if ($step === "placar") {
+    $sqlRanking = "SELECT 
+                    usuarios.nome,
+                    SUM(partidas.pontos) AS total_pontos
+                   FROM partidas
+                   INNER JOIN usuarios 
+                        ON usuarios.id_usuario = partidas.id_usuario
+                   GROUP BY usuarios.id_usuario, usuarios.nome
+                   ORDER BY total_pontos DESC
+                   LIMIT 10";
+
+    $stmtRanking = $pdo->prepare($sqlRanking);
+    $stmtRanking->execute();
+
+    $rankingGeral = $stmtRanking->fetchAll(PDO::FETCH_ASSOC);
+}
 
 if ($step == "tentativa-pts") {
   $step = "pontuacao";
@@ -81,7 +153,7 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
       </article>
 
       <div class="screen__actions">
-        <a href="jogo.php?step=placar&pontos=<?php echo $pontos; ?>" class="screen__button">Continuar</a>
+        <a href="jogo.php?step=placar" class="screen__button">Continuar</a>
       </div>
     </section>
   </main>
@@ -104,10 +176,19 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
           <div class="scoreboard-table__line"></div>
 
           <div class="scoreboard-table__body">
-            <div class="scoreboard-row">
-              <span id="nome-jogador">jogador</span>
-              <span id="pontuacao-final"><?php echo $pontos; ?> pts</span>
-            </div>
+            <?php if (count($rankingGeral) === 0) { ?>
+              <div class="scoreboard-row">
+                <span>Nenhuma partida</span>
+                <span>0 pts</span>
+              </div>
+            <?php } else { ?>
+              <?php foreach ($rankingGeral as $linha) { ?>
+                <div class="scoreboard-row">
+                  <span><?php echo htmlspecialchars($linha["nome"]); ?></span>
+                  <span><?php echo (int) $linha["total_pontos"]; ?> pts</span>
+                </div>
+              <?php } ?>
+            <?php } ?>
           </div>
         </div>
       </article>

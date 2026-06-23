@@ -139,7 +139,7 @@ controlarJogo();
 
 function redirecionarTela() {
     const form_post = document.createElement("form");
-    form_post.setAttribute('action', "jogo.php?step=pontuacao");
+    form_post.setAttribute('action', "jogo.php?step=salvar-pontuacao");
     form_post.setAttribute('method', "POST");
 
     const input_pts = document.createElement("input");
