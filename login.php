@@ -1,3 +1,47 @@
+<?php
+session_start();
+require_once "includes/conexao.php";
+
+$erro = "";
+$sucesso = "";
+
+if (isset($_GET["cadastro"]) && $_GET["cadastro"] === "ok") {
+    $sucesso = "Cadastro realizado com sucesso! Faça login para continuar.";
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $identificador = trim($_POST["nome"] ?? "");
+    $senha = $_POST["senha"] ?? "";
+
+    if ($identificador === "" || $senha === "") {
+        $erro = "Preencha nome/e-mail e senha.";
+    } else {
+        $sql = "SELECT id_usuario, nome, email, senha_hash 
+                FROM usuarios 
+                WHERE nome = :identificador OR email = :identificador 
+                LIMIT 1";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":identificador", $identificador);
+        $stmt->execute();
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$usuario || !password_verify($senha, $usuario["senha_hash"])) {
+            $erro = "Nome/e-mail ou senha inválidos.";
+        } else {
+            session_regenerate_id(true);
+
+            $_SESSION["usuario_id"] = $usuario["id_usuario"];
+            $_SESSION["usuario_nome"] = $usuario["nome"];
+            $_SESSION["usuario_email"] = $usuario["email"];
+
+            header("Location: jogo.php?step=como-jogar");
+            exit;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -20,9 +64,27 @@
         <a href="cadastro.php" class="auth-link">Cadastre-se.</a>
       </p>
 
-      <form class="auth-form" action="jogo.php?step=como-jogar" method="post">
+      <?php if ($sucesso !== "") { ?>
+        <p style="text-align:center; color:#3aff34; margin-bottom:16px;">
+          <?php echo htmlspecialchars($sucesso); ?>
+        </p>
+      <?php } ?>
+
+      <?php if ($erro !== "") { ?>
+        <p style="text-align:center; color:#ff3434; margin-bottom:16px;">
+          <?php echo htmlspecialchars($erro); ?>
+        </p>
+      <?php } ?>
+
+      <form class="auth-form" action="login.php" method="post">
         <div class="field">
-          <input type="text" id="nome" name="nome" placeholder="Nome:" />
+          <input 
+            type="text" 
+            id="nome" 
+            name="nome" 
+            placeholder="Nome ou e-mail:" 
+            value="<?php echo htmlspecialchars($_POST["nome"] ?? ""); ?>"
+          />
           <p class="msg-erro" id="erro-nome"></p>
         </div>
 
