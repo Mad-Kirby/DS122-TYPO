@@ -123,13 +123,13 @@ const controlarJogo = () => {
         screen_mem.textContent = estatisticas.resp;
         screen_input.value = "";
         screen_input.disabled = true;
-        iniciarTemporizador(2);
+        iniciarTemporizador(5);
     }
     else {
         screen_mem.textContent = "";
         screen_input.disabled = false;
         screen_input.focus();
-        iniciarTemporizador(10);
+        iniciarTemporizador(15);
     }
 }
 controlarJogo();
