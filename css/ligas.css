@@ -5,6 +5,7 @@
   --text: #f7f7f4;
   --text-soft: rgba(247, 247, 244, 0.82);
   --muted: #C4C6D1;
+  --error: #ff3434;
   --yellow: #d6cd00;
   --yellow2:#dfd600;
   --accent: #20a8bd;
@@ -97,6 +98,14 @@ input:focus {
   font-size: clamp(0.95rem, 1.1vw, 1.1rem);
   font-weight: 600;
   color: var(--text);
+}
+
+.msg-erro {
+  color: var(--error);
+  font-weight: 400;
+  min-height: 1.5rem;
+  padding-left: 1.5rem;
+  margin-top: -1rem;
 }
 
 .btn {

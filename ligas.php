@@ -37,6 +37,7 @@ $tituloPagina = $titulos[$step] ?? "Minhas Ligas";
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/ligas.css" />
+  <script src="js/ligas.js" defer></script>
 </head>
 <body>
 
@@ -51,11 +52,13 @@ $tituloPagina = $titulos[$step] ?? "Minhas Ligas";
       <div class="form-group">
         <label for="nome-liga">Nome da Liga</label>
         <input id="nome-liga" type="text" required />
+        <p class="msg-erro"></p>
       </div>
 
       <div class="form-group">
         <label for="palavra-chave">Palavra-chave</label>
         <input id="palavra-chave" type="text" required />
+        <p class="msg-erro"></p>
       </div>
 
       <button type="submit" class="btn">Criar Liga</button>
@@ -73,11 +76,13 @@ $tituloPagina = $titulos[$step] ?? "Minhas Ligas";
       <div class="form-group">
         <label for="nome-liga-entrada">Nome da Liga</label>
         <input id="nome-liga-entrada" type="text" required />
+        <p class="msg-erro"></p>
       </div>
 
       <div class="form-group">
         <label for="senha-liga">Palavra-chave</label>
         <input id="senha-liga" type="password" required />
+        <p class="msg-erro"></p>
       </div>
 
       <button type="submit" class="btn">Entrar</button>
