@@ -1,4 +1,6 @@
 <?php
+require_once "includes/auth.php";
+
 $step = $_GET["step"] ?? "como-jogar";
 $pontos = isset($_POST["pontos"]) ? (int) $_POST["pontos"] : 0;
 
@@ -112,7 +114,7 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
 
         <div class="screen__actions screen__actions--scoreboard">
         <a href="jogo.php?step=como-jogar" class="screen__button">Jogar Novamente</a>
-        <a href="login.php" class="screen__button">Sair</a>
+        <a href="logout.php" class="screen__button">Sair</a>
         </div>
     </section>
   </main>

@@ -1,4 +1,6 @@
 <?php
+require_once "includes/auth.php";
+
 $step = $_GET["step"] ?? "minhas";
 
 if ($step == "criar-liga") {
