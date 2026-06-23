@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/autenticar.css" />
+  <script src="js/login.js" defer></script>
 </head>
 <body>
   <main class="auth-page">
@@ -22,10 +23,12 @@
       <form class="auth-form" action="jogo.php?step=como-jogar" method="post">
         <div class="field">
           <input type="text" id="nome" name="nome" placeholder="Nome:" />
+          <p class="msg-erro" id="erro-nome"></p>
         </div>
 
         <div class="field">
           <input type="password" id="senha" name="senha" placeholder="Senha:" />
+          <p class="msg-erro" id="erro-senha"></p>
         </div>
 
         <button type="submit" class="btn-submit">Continuar</button>
