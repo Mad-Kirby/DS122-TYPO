@@ -45,6 +45,7 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
         <div class="screen__top">
           <h2>Memorize a palavra abaixo:</h2>
           <p class="screen__time">Tempo: <span></span></p> 
+          <p class="screen__pts">Pontuação: <span></span></p>
           <p class="screen__errors">Erros: <span></span></p>
         </div>
 
@@ -128,7 +129,7 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
         <section class="howto-box howto-box--steps" aria-labelledby="titulo-passos">
           <h2 id="titulo-passos" class="sr-only">Passos do jogo</h2>
           <ol class="howto-list">
-            <li>Uma palavra ou frase aparecerá na tela.</li>
+            <li>Uma ou mais palavras aparecerão na tela.</li>
             <li>Memorize antes que o tempo acabe.</li>
             <li>Digite exatamente o que foi mostrado.</li>
             <li>Acerte para ganhar pontos!</li>

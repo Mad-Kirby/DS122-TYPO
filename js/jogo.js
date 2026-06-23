@@ -4,6 +4,7 @@ const screen_mem = document.querySelector(".memorize__field");
 const screen_time = document.querySelector(".screen__time span");
 const screen_input = document.querySelector(".screen__input");
 const screen_errors = document.querySelector(".screen__errors span");
+const screen_pts = document.querySelector(".screen__pts span");
 
 // para manter controle das estatisticas das tentativas/jogo 
 // sem utilizar variáveis globais
@@ -15,13 +16,14 @@ function Estatistica() {
     this.pts_total = 0;
     this.mudarResp =  (novaResp) => { return this.resp = novaResp; }
     this.incrementarTempR =     () => { return this.tempo_resp++; }
-    this.resetarTemR =           () => { return this.tempo_resp = 0; }
+    this.resetarTempR =           () => { return this.tempo_resp = 0; }
     this.incrementarMult =      () => { return this.multiplicador++; }
     this.resetarMultiplicador = () => { return this.multiplicador = 1; }
     this.mudarAcerto = (percent) => { return this.acerto = percent; }
     this.calcularTotalPts = () => {
+        console.log(this);
         return this.pts_total += Math.floor(
-            10 * this.acerto * (1 + 0.95 ** this.tempo_resp) * this.multiplicador
+            10 * this.acerto * (1 + 0.8 ** this.tempo_resp) * this.multiplicador
         );
     }
 }
@@ -86,15 +88,14 @@ const verificarResposta = (input) => {
 
     estatisticas.mudarAcerto( compararVet(entr, resp) / resp.length );
 
-    if ( estatisticas.multiplicador < 5 )
-        estatisticas.incrementarMult();
-
     if ( estatisticas.acerto !== 1 ) {
         estatisticas.resetarMultiplicador();
         erros++;
     }
 
     estatisticas.calcularTotalPts();
+    if ( estatisticas.multiplicador < 5 )
+        estatisticas.incrementarMult();
 }
 
 function reiniciarLoop() {
@@ -105,17 +106,18 @@ function reiniciarLoop() {
     else {
         memoriza = false;
     }
-    estatisticas.resetarTemR();
+    estatisticas.resetarTempR();
     controlarJogo();
 }
 
 const controlarJogo = () => {
     screen_errors.textContent = `${erros}/${max_erros}`;
+    screen_pts.textContent = `${estatisticas.pts_total}`;
     if (erros >= max_erros) {
         clearInterval(temporizador);
         screen_input.removeEventListener("keydown", handler);
         screen_input.value = "";
-        return;
+        window.location.replace(`jogo.php?step=pontuacao&pontos=${estatisticas.pts_total}`);
     }
 
     if (memoriza) {
@@ -132,4 +134,5 @@ const controlarJogo = () => {
         iniciarTemporizador(15);
     }
 }
+
 controlarJogo();

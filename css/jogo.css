@@ -95,16 +95,13 @@ body {
 }
 
 .screen--attempt .screen__top h2,
+.screen--attempt .screen__pts,
 .screen--attempt .screen__time,
 .screen--attempt .screen__errors {
   margin: 0;
   font-size: clamp(1rem, 1.7vw, 1.6rem);
   font-weight: 700;
   color: var(--text);
-}
-
-.screen--attempt .screen__errors {
-  grid-column-start: 2;
 }
 
 .screen--attempt .screen__input-wrap {
