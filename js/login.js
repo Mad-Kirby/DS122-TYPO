@@ -40,9 +40,15 @@ input_nome.addEventListener("input", (e) => {
     }
 });
 
-btn.addEventListener("click", (e) => {
-    if ( !validarNome() || !validarSenha() ) 
-        e.preventDefault()
+input_senha.addEventListener("input", (e) => {
+    const regex = /^[\dA-Za-z@$!%*?&_-]*$/g;
+    const entrada = e.target.value;
+    if ( !regex.test(entrada) ) {
+        e.target.value = entrada.slice(0, entrada.length - 1);
+    }
 });
 
-/* adicionar permissão para ver campo de senha */
+btn.addEventListener("click", (e) => {
+    if ( !validarNome() || !validarSenha() ) 
+        e.preventDefault();
+});
