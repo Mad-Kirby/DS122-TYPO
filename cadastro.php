@@ -34,7 +34,7 @@ $step = $_GET["step"] ?? "dados";
               <li>letras maiúsculas;</li>
               <li>letras minúsculas;</li>
               <li>números;</li>
-              <li>ao menos um caractere especial.</li>
+              <li>ao menos um caractere especial (@$!%*?&_-).</li>
             </ul>
         </div>
 

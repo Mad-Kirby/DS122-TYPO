@@ -8,18 +8,17 @@ searches.forEach( (elem) => {
 if ( arrSearches.step == "senha" ) {
     /* === cadastro step senha === */
     const validarSenha = () => {
-        const regex = /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{8,}$/u;
+        /* expressão regular para verificar se a senha possui ao menos um digito (0-9), 
+        uma letra maiúscula e minúscula, um caractere especial diferente de espaço e
+        possua 8 ou mais caracteres, e que todos os caracteres façam parte
+        desta classe -> [\dA-Za-z@$!%*?&_-] */
+        const regex = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\dA-Za-z ])[\dA-Za-z@$!%*?&_-]{8,}$/;
         const entrada = input_senha.value;
 
-        // essas mensagens vou tirar depois, só para deixar a base funcionando por enquanto
-        let msg;
-        if ( !entrada ) msg = "Senha não deve ser vazia!";
-        else if ( !regex.test(entrada) ) 
-            msg = "Senha fraca, atente-se aos requisitos!";
-        else return true;
-
-        alert(msg);
-        return false;
+        if ( !entrada || !regex.test(entrada) ) 
+            return false;
+        
+        return true;
     }
 
     const validarConfirmacao = () => {
@@ -36,8 +35,47 @@ if ( arrSearches.step == "senha" ) {
     const btn = document.querySelector("#btn-cadastro");
     const input_senha = document.querySelector("#senha");
     const input_confirmacao = document.querySelector("#confirmar-senha");
+    const requisitos_senha = document.querySelectorAll(".req-senha li");
 
-    /* adicionar permissão para ver a senha de ambos os campos --> olhinho <o> */
+    // impedindo a entrada de caracteres indesejados
+    input_senha.addEventListener("input", (e) => {
+        const regex = /^[\dA-Za-z@$!%*?&_-]*$/g;
+        const entrada = e.target.value;
+        if ( !regex.test(entrada) ) {
+            e.target.value = entrada.slice(0, entrada.length - 1);
+        }
+    });
+    input_confirmacao.addEventListener("input", (e) => {
+        const regex = /^[\dA-Za-z@$!%*?&_-]*$/g;
+        const entrada = e.target.value;
+        if ( !regex.test(entrada) ) {
+            e.target.value = entrada.slice(0, entrada.length - 1);
+        }
+    });
+
+    // indica na tela quais requisitos de senha foram atingidos ou não
+    input_senha.addEventListener("input", (e) => {
+        const entrada = e.target.value;
+        const regex = [
+            /(?=^.{8,}$)/g, // minimo de 8 caracteres
+            /[A-Z]/g,
+            /[a-z]/g,
+            /\d/g, // digitos, equivale a [0-9]
+            // caracteres especiais, desde que seja um dos identificados no segundo colchete
+            /(?=.*[^\dA-Za-z ])[@$!%*?&_-]/g 
+        ];
+
+        // testa para cada requisito e altera a classe css que possui
+        regex.forEach( (elem, index) => {
+            if( !elem.test(entrada) ) {
+                requisitos_senha[index].classList.remove("correct");
+                requisitos_senha[index].classList.add("error");
+            } else { 
+                requisitos_senha[index].classList.remove("error");
+                requisitos_senha[index].classList.add("correct");   
+            }
+        });
+    });
 
     btn.addEventListener("click", (e) => {
         const correto = validarSenha() && validarConfirmacao();
@@ -48,6 +86,7 @@ if ( arrSearches.step == "senha" ) {
 else {
     /* === cadastro: nome e email === */
     const validarNome = () => {
+        // varifica se o nome eh composto somente por caracteres não alfanumericos
         const regex = /^[_. -]+(?!.*[a-zA-Z0-9])$/;
         const entrada = input_nome.value;
 
@@ -67,6 +106,10 @@ else {
     }
 
     const validarEmail = () => {
+        /* expressão regular para validar a estrutura de um email, 
+        sequencia de 1 ou mais caracteres alfanumericos, seguido de um @ e
+        uma ou mais sequencias de caracteres seguida de um . 
+        finalizada por uma sequencia de 2 a 4 caracteres alfanumericos*/
         const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
         const entrada = input_email.value;
 
