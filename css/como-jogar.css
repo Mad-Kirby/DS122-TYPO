@@ -94,36 +94,6 @@ body {
   gap: 0.4rem;
 }
 
-.howto-scoring {
-  margin-top: clamp(0.9rem, 1.4vw, 1rem);
-  padding-left: 1rem;
-  display: grid;
-  gap: 0.1rem;
-}
-
-.score-row {
-  display: grid;
-  grid-template-columns: minmax(120px, 150px) 20px 1fr;
-  align-items: center;
-  column-gap: 0.45rem;
-  font-size: clamp(0.92rem, 1vw, 1.02rem);
-  line-height: 1.12;
-  color: var(--text);
-  font-weight: 600;
-}
-
-.score-label {
-  text-align: left;
-}
-
-.score-separator {
-  text-align: center;
-}
-
-.score-value {
-  text-align: left;
-}
-
 .howto-actions {
   display: flex;
   justify-content: flex-end;
@@ -226,11 +196,6 @@ body {
     padding-left: 1.2rem;
   }
 
-  .score-row {
-    grid-template-columns: 118px 18px 1fr;
-    font-size: 0.9rem;
-  }
-
   .start-button {
     min-height: 74px;
     font-size: clamp(1.45rem, 6vw, 2rem);
@@ -245,9 +210,5 @@ body {
 
   .howto-panel {
     border-radius: 26px;
-  }
-
-  .score-row {
-    grid-template-columns: 104px 14px 1fr;
   }
 }

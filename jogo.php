@@ -223,30 +223,9 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
           <h2 id="titulo-atencao">Atenção:</h2>
           <ol class="howto-list howto-list--secondary">
             <li>Letras maiúsculas e acentos podem contar como erro.</li>
-            <li>Quanto mais rápido e preciso, maior sua pontuação!</li>
+            <li>Quanto mais rápido e preciso, maior sua pontuação.</li>
+            <li>Acertos em sequência também fazem diferença!</li>
           </ol>
-        </section>
-
-        <section class="howto-scoring" aria-labelledby="titulo-pontuacao">
-          <h2 id="titulo-pontuacao" class="sr-only">Pontuação</h2>
-
-          <div class="score-row">
-            <span class="score-label">Acerto 100%</span>
-            <span class="score-separator">=</span>
-            <span class="score-value">10 pontos</span>
-          </div>
-
-          <div class="score-row">
-            <span class="score-label">Acerto 50%</span>
-            <span class="score-separator">=</span>
-            <span class="score-value">5 pontos</span>
-          </div>
-
-          <div class="score-row">
-            <span class="score-label">Erro</span>
-            <span class="score-separator">=</span>
-            <span class="score-value">0 pontos</span>
-          </div>
         </section>
       </div>
 
