@@ -30,7 +30,7 @@ function validarSenha($senha) {
         return "Senha não deve estar vazia.";
     }
 
-    if (!preg_match("/^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^0-9A-Za-z]).{8,}$/", $senha)) {
+    if (!preg_match("/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\dA-Za-z ])[\dA-Za-z@$!%*?&_-]{8,}$/", $senha)) {
         return "Senha fraca. Ela deve ter ao menos 8 caracteres, letra maiúscula, letra minúscula, número e caractere especial.";
     }
 
