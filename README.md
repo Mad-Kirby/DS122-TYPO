@@ -4,7 +4,7 @@ Projeto de desenvolvimento Web em PHP e MySQL.
 
 ## O que é
 
-DS122-TYPO é um sistema web que oferece cadastro e login de usuários, um jogo com pontuação e um sistema de ligas.
+DS122-TYPO é um sistema web que oferece cadastro e login de usuários, um jogo de memorização de palavras e digitação com pontuação e um sistema de ligas.
 
 ## O que faz
 
