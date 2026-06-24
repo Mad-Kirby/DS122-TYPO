@@ -194,6 +194,7 @@ $cssPagina = $step == "como-jogar" ? "css/como-jogar.css" : "css/jogo.css";
       </article>
 
         <div class="screen__actions screen__actions--scoreboard">
+        <a href="ligas.php" class="screen__button">Ligas</a>
         <a href="jogo.php?step=como-jogar" class="screen__button">Jogar Novamente</a>
         <a href="logout.php" class="screen__button">Sair</a>
         </div>

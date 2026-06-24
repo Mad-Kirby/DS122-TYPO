@@ -1,64 +1,132 @@
 # DS122-TYPO
-Trabalho de desenvolvimento WEB
-Não sei oque não sei oque lá
-# Grande
 
-## Como clonar o repositório no Ubuntu/WSL
+Projeto de desenvolvimento Web em PHP e MySQL.
 
-abram o terminal do Ubuntu e escolha a pasta que quer salvar o projeto:
+## O que é
+
+DS122-TYPO é um sistema web que oferece cadastro e login de usuários, um jogo com pontuação e um sistema de ligas.
+
+## O que faz
+
+- Permite cadastro de usuários com nome, e-mail e senha segura.
+- Oferece login e autenticação para acessar páginas protegidas.
+- Inclui uma tela de recuperação de senha (interface de exemplo).
+- Contém um jogo que registra pontuações e mostra resultados.
+- O jogo consiste de três palavras que aparecem na tela e ficam alguns segundos na tela e logo desaparecem, o jogador precisa digitá-las corretamente para maximizar os pontos, podendo cometer erros somente 3 vezes 
+- Oferece um placar geral e controle de ligas de usuários.
+
+## Como rodar
+
+O projeto usa PHP e MySQL. É preciso criar o banco de dados e configurar as credenciais em um arquivo `.env` na raiz do projeto.
+
+> O arquivo `.env` está listado no `.gitignore` para que não seja enviado ao repositório.
+
+### Passos comuns
+
+1. Abra o terminal na raiz do projeto.
+2. Instale e habilite a extensão `php-mysql` para que o PHP possa se conectar ao MySQL via PDO.
+3. Inicie o serviço MySQL.
+4. Crie o banco de dados com o script `schema.sql`.
+5. Crie o arquivo `.env` com as variáveis de conexão.
+6. Inicie o servidor PHP embutido.
+7. Acesse `login.php` no navegador.
+
+### Ubuntu / WSL
+
+No Ubuntu ou WSL, execute:
 
 ```bash
-cd ~
-mkdir projeto-web1
-cd projeto-web1
+sudo service mysql start
+sudo mysql < schema.sql
 ```
 
-Depois eh só clonar o repositório:
+Depois, entre no MySQL e execute:
 
-```bash
-git clone https://github.com/Mad-Kirby/DS122-TYPO.git
+```sql
+CREATE USER IF NOT EXISTS 'typo_user'@'localhost' IDENTIFIED BY 'typo123';
+GRANT ALL PRIVILEGES ON ds122_typo.* TO 'typo_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
 ```
 
-Entra na pasta do projeto:
+Crie o arquivo `.env` na raiz do projeto com o conteúdo:
 
-```bash
-cd DS122-TYPO
+```text
+DB_HOST=localhost
+DB_NAME=ds122_typo
+DB_USER=typo_user
+DB_PASSWORD=typo123
 ```
 
-e FINALMENTE abre no VS Code:
-
-```bash
-code .
-```
-
-## Como rodar o projeto no navegador
-
-abre o terminal do vscode:
+Execute o servidor PHP na pasta do projeto:
 
 ```bash
 php -S localhost:8000
 ```
 
-Depois abre no navegador:
+Abra no navegador:
 
 ```text
 http://127.0.0.1:8000/login.php
 ```
 
-PRESTA ATENÇÃO:
+### Windows
+Se o MySQL estiver instalado via XAMPP, WAMP ou outra distribuição, use o mesmo banco de dados e credenciais no `.env`.
 
-```text
-http://127.0.0.1:8000
+No Windows, abra o terminal do projeto e execute o mesmo servidor embutido do PHP:
+
+1. Abra o PowerShell na pasta do projeto:
+```powershell
+cd C:\xampp\htdocs\DS122-TYPO-main
 ```
-
-pode mostrar erro **Not Found**, porque ainda não existe uma página inicial `index.php`.
-
-Por enquanto, para iniciar o projeto, acessem diretamente:
+2. Crie o banco de dados utilizando o **schema.sql** :
+```powershell
+php -S localhost:8000
+```
+3. Abra o MySQL:
+```powershell
+mysql -u root -p
+```
+e rode:
+```sql
+CREATE USER IF NOT EXISTS 'typo_user'@'localhost' IDENTIFIED BY 'typo123';
+GRANT ALL PRIVILEGES ON ds122_typo.* TO 'typo_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+4.crie o arquivo **.env** na raiz do projeto com o conteúdo:
+```sql
+DB_HOST=localhost
+DB_NAME=ds122_typo
+DB_USER=typo_user
+DB_PASSWORD=typo123
+```
+5. Execute o servidor PHP:
+```powershell
+php -S localhost:8000
+```
+Acesse:
 
 ```text
 http://127.0.0.1:8000/login.php
 ```
+ou 
+```text
+http://localhost:8000/login.php
+```
+### Observação
 
+O endereço `http://127.0.0.1:8000` pode apresentar erro **Not Found** porque não existe uma página `index.php`.
+
+Para iniciar o projeto, acesse diretamente:
+
+```text
+http://127.0.0.1:8000/login.php
+```
+ou 
+```text
+http://localhost:8000/login.php
+```
 Outras páginas disponíveis:
 
 ```text
