@@ -341,6 +341,10 @@ $tituloPagina = $titulos[$step] ?? "Minhas Ligas";
 </head>
 <body>
 
+  <button type="button" class="btn back-button" onclick="history.back()" aria-label="Voltar">
+    ← Voltar
+  </button>
+
 <?php if ($step == "criar") { ?>
 
   <main class="container" aria-labelledby="titulo-criar">

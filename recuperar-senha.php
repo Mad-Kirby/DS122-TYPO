@@ -11,6 +11,9 @@
   <script src="js/recuperar-senha.js" defer></script>
 </head>
 <body>
+  <button type="button" class="btn-submit back-btn" onclick="history.back()" aria-label="Voltar">
+    ← Voltar
+  </button>
   <main class="auth-page">
     <section class="auth-card" aria-labelledby="titulo-cadastro">
       <h1 id="titulo-cadastro" class="auth-title">Recuperar Senha</h1>

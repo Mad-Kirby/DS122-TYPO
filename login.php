@@ -92,7 +92,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <input type="password" id="senha" name="senha" placeholder="Senha:" />
           <p class="msg-erro" id="erro-senha"></p>
         </div>
-
+<p class="auth-subtitle">
+        Esqueceu sua senha?
+        <a href="recuperar-senha.php" class="auth-link">Recupere aqui.</a>
+      </p>
         <button type="submit" class="btn-submit">Continuar</button>
       </form>
     </section>

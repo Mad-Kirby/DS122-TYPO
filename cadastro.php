@@ -182,7 +182,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             />
             <p class="msg-erro"></p>
           </div>
-
+<p class="auth-subtitle">
+        Esqueceu sua senha?
+        <a href="recuperar-senha.php" class="auth-link">Recupere aqui.</a>
+      </p>
           <button type="submit" class="btn-submit" id="btn-continuar">Continuar</button>
         </form>
 

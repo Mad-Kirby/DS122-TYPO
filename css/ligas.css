@@ -153,6 +153,15 @@ input:focus {
   outline-offset: 4px;
 }
 
+.back-button {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 20;
+  padding: clamp(0.7rem, 1vw, 0.9rem) clamp(1.2rem, 1.5vw, 1.4rem);
+  border-radius: 999px;
+}
+
 .acoes {
   display: flex;
   flex-wrap: wrap;
