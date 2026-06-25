@@ -2,18 +2,16 @@ const btn = document.querySelector(".btn-submit");
 const input_nome = document.querySelector("#nome");
 const input_senha = document.querySelector("#senha");
 
-const validarNome = () => {
-    const regex = /^[_. -]+(?!.*[a-zA-Z0-9])$/;
-    const entrada = input_nome.value;
+const validarIdentificador = () => {
+    const entrada = input_nome.value.trim();
 
     let msg = "";
     input_nome.nextElementSibling.textContent = "";
 
-    if ( !entrada )
-        msg = "Campo obrigatório, não deve estar vazio!" ;
-    else if ( !(entrada.length >= 3 && entrada.length <= 16) 
-        || regex.test(entrada) )
-        msg = "Nome inválido!" ;
+    if (!entrada)
+        msg = "Campo obrigatório, não deve estar vazio!";
+    else if (entrada.length > 255)
+        msg = "Nome ou e-mail muito longo!";
     else return true;
 
     input_nome.nextElementSibling.textContent = msg;
@@ -33,10 +31,10 @@ const validarSenha = () => {
 }
 
 input_nome.addEventListener("input", (e) => {
-    const regex = /^[a-zA-Z0-9_. -]*$/g;
     const entrada = e.target.value;
-    if ( !regex.test(entrada) || entrada.length > 16 ) {
-        e.target.value = entrada.slice(0, entrada.length - 1);
+
+    if (entrada.length > 255) {
+        e.target.value = entrada.slice(0, 255);
     }
 });
 
@@ -49,6 +47,6 @@ input_senha.addEventListener("input", (e) => {
 });
 
 btn.addEventListener("click", (e) => {
-    if ( !validarNome() || !validarSenha() ) 
+    if (!validarIdentificador() || !validarSenha()) 
         e.preventDefault();
 });
