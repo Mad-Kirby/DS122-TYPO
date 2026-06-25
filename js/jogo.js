@@ -14,16 +14,47 @@ function Estatistica() {
     this.tempo_resp = 0;
     this.acerto = 0;
     this.pts_total = 0;
-    this.mudarResp =  (novaResp) => { return this.resp = novaResp; }
-    this.incrementarTempR =     () => { return this.tempo_resp++; }
-    this.resetarTempR =           () => { return this.tempo_resp = 0; }
-    this.incrementarMult =      () => { return this.multiplicador++; }
-    this.resetarMultiplicador = () => { return this.multiplicador = 1; }
-    this.mudarAcerto = (percent) => { return this.acerto = percent; }
+    this.dificuldade = {
+        tmp_chute: 15,
+        tmp_memoria: 3,
+        qtd_palav: 1
+    }
+    this.incrementarTempR =     () => { this.tempo_resp++; }
+    this.resetarTempR =         () => { this.tempo_resp = 0; }
+    this.resetarMultiplicador = () => { this.multiplicador = 1; }
+    this.mudarAcerto =   (percent) => { this.acerto = percent; }
+    this.getTmpChute =          () => { return this.dificuldade.tmp_chute; }
+    this.getTmpMemoria =        () => { return this.dificuldade.tmp_memoria; }
+    this.incrementarMult =      () => {
+        if (this.multiplicador >= 5) { return; }
+        this.multiplicador++;
+    }
+    this.mudarResp =  () => { 
+        const arr_palavras = selecionaPalavras(this.dificuldade.qtd_palav);
+        const nova_resp = String(arr_palavras).replaceAll(',', ' ');
+        this.resp = nova_resp; 
+    }
     this.calcularTotalPts = () => {
-        return this.pts_total += Math.floor(
+        this.pts_total += Math.floor(
             10 * this.acerto * (1 + 0.8 ** this.tempo_resp) * this.multiplicador
         );
+    }
+    this.mudarDificuldade = () => {
+        const flags = [100, 200, 400, 600, 800];
+        const pts = this.pts_total;
+        if (this.pts_total <= flags[0] || this.pts_total > flags[4]) return;
+
+        if (pts > flags[0] && pts <= flags[1]) {
+            this.dificuldade.qtd_palav = 2;
+        } else if (pts > flags[1] && pts <= flags[2]) {
+            this.dificuldade.qtd_palav = 3;
+            this.dificuldade.tmp_memoria = 5;
+        } else if (pts > flags[2] && pts <= flags[3]) {
+            this.dificuldade.tmp_memoria = 3;
+            this.dificuldade.tmp_chute = 10;
+        } else {
+            this.dificuldade.tmp_memoria = 1;
+        }
     }
 }
 
@@ -74,13 +105,13 @@ const iniciarTemporizador = (tempo_limite) => {
 }
 
 const verificarResposta = (input) => {
-    const entr = input.value.split(" ");
+    const entr = input.value.trim().split(" ");
     const resp = estatisticas.resp.split(" ");
 
-    const compararVet = (vet1, vet2) => {
+    const compararVet = (vet_e, vet_r) => {
         let i = 0;
-        vet1.forEach( (elemento) => {
-            if (vet2.includes( elemento )) i++;
+        vet_r.forEach( (elemento) => {
+            if (vet_e.includes( elemento )) i++;
         });
         return i;
     }
@@ -93,7 +124,7 @@ const verificarResposta = (input) => {
     }
 
     estatisticas.calcularTotalPts();
-    if ( estatisticas.multiplicador < 5 )
+    if ( estatisticas.acerto == 1 )
         estatisticas.incrementarMult();
 }
 
@@ -119,19 +150,20 @@ const controlarJogo = () => {
         
         redirecionarTela();
     }
+    estatisticas.mudarDificuldade();
 
     if (memoriza) {
-        estatisticas.mudarResp( String(selecionaPalavras(3)).replaceAll(',', ' ') );
+        estatisticas.mudarResp();
         screen_mem.textContent = estatisticas.resp;
         screen_input.value = "";
         screen_input.disabled = true;
-        iniciarTemporizador(5);
+        iniciarTemporizador( estatisticas.getTmpMemoria() );
     }
     else {
         screen_mem.textContent = "";
         screen_input.disabled = false;
         screen_input.focus();
-        iniciarTemporizador(15);
+        iniciarTemporizador( estatisticas.getTmpChute() );
     }
 }
 
@@ -143,10 +175,9 @@ function redirecionarTela() {
     form_post.setAttribute('method', "POST");
 
     const input_pts = document.createElement("input");
-    input_pts.setAttribute('type', "number");
+    input_pts.setAttribute('type', "hidden");
     input_pts.setAttribute('name', "pontos");
     input_pts.value = estatisticas.pts_total;
-
 
     document.body.append(form_post);
     form_post.append(input_pts);

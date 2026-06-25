@@ -1,7 +1,7 @@
 const dicionario = [
     'caderno', 'patinete', 'computador', 'garrafa', 'cadeira', 'lâmpada', 'armário', 'óculos', 'talher', 'janela',
     'aprender', 'correr', 'descobrir', 'acordar', 'pintar', 'caminhar', 'desligar', 'chutar', 'escrever', 'cantar',
-    'receita', 'crescimento', 'fornecedor', 'audiencia', 'fechamento', 'atendimento', 'desenvolvimento', 'estratégia', 'corporação', 'investidor',
+    'receita', 'crescimento', 'fornecedor', 'audiência', 'fechamento', 'atendimento', 'desenvolvimento', 'estratégia', 'corporação', 'investidor',
     'resort', 'aeroporto', 'floresta', 'museu', 'hotel', 'explorar', 'ônibus', 'aventura', 'exótico', 'relaxamento',
     'malware', 'cache', 'sistema', 'interface', 'mobile', 'digital', 'browser', 'domínio', 'compilador', 'internet'
 ];
