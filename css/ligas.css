@@ -346,3 +346,83 @@ tr:hover {
     font-size: 0.85rem;
   }
 }
+
+/* Css histórico a baixo */
+.historico-card {
+  background: var(--panel);
+  padding: clamp(1.2rem, 2vw, 1.8rem);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+}
+
+.historico-title {
+  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin-bottom: clamp(1.2rem, 2vw, 1.8rem);
+}
+
+.historico-bloco {
+  background: var(--box);
+  border-radius: var(--radius-box);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.historico-lista-wrap {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.historico-jogador {
+  text-align: center;
+  font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+  font-weight: 800;
+  color: var(--text);
+  padding: clamp(0.9rem, 1.5vw, 1.2rem) 1rem 0.7rem;
+}
+
+.historico-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.historico-tabela thead th {
+  color: var(--accent);
+  font-size: clamp(1.2rem, 2vw, 2rem);
+  font-weight: 800;
+  border-bottom: 3px solid var(--yellow);
+  padding-top: 0.3rem;
+  padding-bottom: 0.7rem;
+}
+
+.historico-tabela tbody td {
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  color: var(--text);
+  text-align: center;
+  padding: 0.9rem 1rem;
+}
+
+.historico-tabela tbody tr:hover {
+  background: rgba(36, 41, 56, 0.45);
+}
+
+.historico-tabela thead th:first-child,
+.historico-tabela tbody td:first-child {
+  width: 50%;
+}
+
+.historico-tabela thead th:last-child,
+.historico-tabela tbody td:last-child {
+  width: 50%;
+}
+
+.historico-vazio {
+  padding: 2rem 1rem 2.2rem;
+  text-align: center;
+  color: var(--text-soft);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+}
