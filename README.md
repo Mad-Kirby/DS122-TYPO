@@ -127,10 +127,3 @@ ou
 ```text
 http://localhost:8000/login.php
 ```
-Outras páginas disponíveis:
-
-```text
-http://127.0.0.1:8000/cadastro.php
-http://127.0.0.1:8000/recuperar-senha.php
-http://127.0.0.1:8000/jogo.php
-```
