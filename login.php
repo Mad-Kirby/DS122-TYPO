@@ -1,14 +1,19 @@
 <?php
+// Inicia a sessão para permitir salvar os dados do usuário logado.
 session_start();
+
+// Importa a conexão com o banco de dados.
 require_once "includes/conexao.php";
 
 $erro = "";
 $sucesso = "";
 
+// Exibe mensagem de sucesso quando o usuário acabou de se cadastrar.
 if (isset($_GET["cadastro"]) && $_GET["cadastro"] === "ok") {
     $sucesso = "Cadastro realizado com sucesso! Faça login para continuar.";
 }
 
+// Processa o formulário de login quando ele é enviado.
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $identificador = trim($_POST["nome"] ?? "");
     $senha = $_POST["senha"] ?? "";
@@ -16,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($identificador === "" || $senha === "") {
         $erro = "Preencha nome/e-mail e senha.";
     } else {
+        // Busca o usuário pelo nome ou pelo e-mail informado no formulário.
         $sql = "SELECT id_usuario, nome, email, senha_hash 
                 FROM usuarios 
                 WHERE nome = :identificador OR email = :identificador 
@@ -27,9 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Verifica se a senha digitada corresponde ao hash salvo no banco.
         if (!$usuario || !password_verify($senha, $usuario["senha_hash"])) {
             $erro = "Nome/e-mail ou senha inválidos.";
         } else {
+            // Renova o ID da sessão após o login para aumentar a segurança.
             session_regenerate_id(true);
 
             $_SESSION["usuario_id"] = $usuario["id_usuario"];

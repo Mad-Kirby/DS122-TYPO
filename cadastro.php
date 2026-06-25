@@ -1,10 +1,14 @@
 <?php
+// Inicia a sessão para guardar temporariamente nome e e-mail entre as etapas do cadastro.
 session_start();
+// Importa a conexão com o banco de dados.
 require_once "includes/conexao.php";
 
 $step = $_GET["step"] ?? "dados";
 $erro = "";
 
+// Valida o nome informado pelo usuário antes de salvar no banco.
+// A validação impede campos vazios, nomes muito curtos ou longos e caracteres inválidos.
 function validarNome($nome) {
     if ($nome === "") {
         return "Nome não deve estar vazio.";
@@ -25,6 +29,9 @@ function validarNome($nome) {
     return "";
 }
 
+// Valida a senha no back-end.
+// A senha precisa ter no mínimo 8 caracteres, letra maiúscula, letra minúscula,
+// número e caractere especial.
 function validarSenha($senha) {
     if ($senha === "") {
         return "Senha não deve estar vazia.";
@@ -36,8 +43,10 @@ function validarSenha($senha) {
 
     return "";
 }
-
+// Verifica se o formulário foi enviado.
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Primeira etapa do cadastro: recebe nome e e-mail,
+    // valida os dados e guarda temporariamente na sessão.
     if (isset($_POST["nome"], $_POST["email"])) {
         $nome = trim($_POST["nome"]);
         $email = trim($_POST["email"]);
@@ -57,6 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
+    // Segunda etapa do cadastro: recebe a senha,
+    // confirma se ela é válida e salva o usuário no banco.
     if (isset($_POST["senha"], $_POST["confirmar_senha"])) {
         $senha = $_POST["senha"];
         $confirmarSenha = $_POST["confirmar_senha"];
@@ -75,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             if ($erro === "") {
+                // Verifica se já existe usuário cadastrado com o mesmo nome ou e-mail.
                 $sqlVerificar = "SELECT id_usuario FROM usuarios WHERE nome = :nome OR email = :email";
                 $stmtVerificar = $pdo->prepare($sqlVerificar);
                 $stmtVerificar->bindValue(":nome", $nome);
@@ -85,8 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $erro = "Nome ou e-mail já cadastrado.";
                     $step = "dados";
                 } else {
+                    // Gera o hash da senha antes de salvar no banco.
+                    // Assim, a senha original não fica armazenada em texto puro.
                     $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
+                    // Insere o novo usuário na tabela usuarios.
                     $sqlInserir = "INSERT INTO usuarios (nome, email, senha_hash) 
                                    VALUES (:nome, :email, :senha_hash)";
 

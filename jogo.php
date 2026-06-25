@@ -1,18 +1,25 @@
 <?php
+// Protege a página para que apenas usuários logados possam acessar o jogo.
 require_once "includes/auth.php";
+
+// Importa a conexão com o banco de dados.
 require_once "includes/conexao.php";
 
+// Define qual tela do jogo será exibida.
 $step = $_GET["step"] ?? "como-jogar";
 $pontos = 0;
 $partida = null;
 $rankingGeral = [];
 
+// Etapa responsável por receber a pontuação enviada pelo JavaScript
+// e salvar uma nova partida no banco de dados.
 if ($step === "salvar-pontuacao") {
     if ($_SERVER["REQUEST_METHOD"] !== "POST") {
         header("Location: jogo.php?step=como-jogar");
         exit;
     }
 
+    // Valida a pontuação recebida via POST, garantindo que seja um número inteiro.
     $pontos = filter_input(INPUT_POST, "pontos", FILTER_VALIDATE_INT);
 
     if ($pontos === false || $pontos === null || $pontos < 0) {
@@ -22,7 +29,7 @@ if ($step === "salvar-pontuacao") {
     if ($pontos > 100000) {
         $pontos = 100000;
     }
-
+    // Salva a partida associando a pontuação ao usuário logado.
     $sql = "INSERT INTO partidas (id_usuario, pontos) 
             VALUES (:id_usuario, :pontos)";
 
@@ -32,11 +39,13 @@ if ($step === "salvar-pontuacao") {
     $stmt->execute();
 
     $idPartida = $pdo->lastInsertId();
-
+    // Após salvar a partida, redireciona para a tela de pontuação
+    // usando o id da partida recém-criada.
     header("Location: jogo.php?step=pontuacao&id_partida=" . $idPartida);
     exit;
 }
 
+// Busca a partida salva para exibir a pontuação correta na tela de resultado.
 if ($step === "pontuacao") {
     $idPartida = filter_input(INPUT_GET, "id_partida", FILTER_VALIDATE_INT);
 
@@ -59,6 +68,7 @@ if ($step === "pontuacao") {
     }
 }
 
+// Monta o ranking geral somando os pontos de todas as partidas de cada usuário.
 if ($step === "placar") {
     $sqlRanking = "SELECT 
                     usuarios.nome,

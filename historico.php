@@ -1,10 +1,16 @@
 <?php
+// Protege o histórico para que apenas usuários logados possam acessar.
 require_once "includes/auth.php";
+
+// Importa a conexão com o banco de dados.
 require_once "includes/conexao.php";
 
+// Recupera os dados do usuário logado a partir da sessão.
 $idUsuario = $_SESSION["usuario_id"];
 $nomeUsuario = $_SESSION["usuario_nome"] ?? "Jogador";
 
+// Busca todas as partidas jogadas pelo usuário logado,
+// ordenando da mais recente para a mais antiga.
 $sqlPartidas = "SELECT id_partida, pontos, jogada_em
                 FROM partidas
                 WHERE id_usuario = :id_usuario
@@ -14,6 +20,7 @@ $stmtPartidas = $pdo->prepare($sqlPartidas);
 $stmtPartidas->bindValue(":id_usuario", $idUsuario, PDO::PARAM_INT);
 $stmtPartidas->execute();
 
+// Armazena todas as partidas encontradas em um array para exibir na tabela.
 $partidas = $stmtPartidas->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -50,6 +57,7 @@ $partidas = $stmtPartidas->fetchAll(PDO::FETCH_ASSOC);
                 <td colspan="2">Nenhuma partida jogada ainda.</td>
               </tr>
             <?php } else { ?>
+            <!-- // Percorre as partidas encontradas e exibe a data e a pontuação de cada uma. -->
               <?php foreach ($partidas as $partida) { ?>
                 <tr>
                   <td>

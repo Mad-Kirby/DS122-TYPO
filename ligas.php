@@ -1,7 +1,11 @@
 <?php
+// Protege a página de ligas para que apenas usuários logados possam acessar.
 require_once "includes/auth.php";
+
+// Importa a conexão com o banco de dados.
 require_once "includes/conexao.php";
 
+// Define qual tela de ligas será exibida: minhas ligas, criar, entrar ou detalhes.
 $step = $_GET["step"] ?? "minhas";
 
 if ($step == "criar-liga") {
@@ -23,6 +27,7 @@ if ($step == "minhas-ligas") {
 $erro = $_GET["erro"] ?? "";
 $sucesso = $_GET["sucesso"] ?? "";
 
+// Valida o nome da liga antes de salvar no banco.
 function validarNomeLiga($nomeLiga) {
     if ($nomeLiga === "") {
         return "Nome da liga não pode estar vazio.";
@@ -43,6 +48,7 @@ function validarNomeLiga($nomeLiga) {
     return "";
 }
 
+// Valida a palavra-chave usada para entrar ou criar uma liga.
 function validarPalavraChave($palavraChave) {
     if ($palavraChave === "") {
         return "Palavra-chave não pode estar vazia.";
@@ -63,9 +69,11 @@ function validarPalavraChave($palavraChave) {
     return "";
 }
 
+// Processa os formulários de criação ou entrada em ligas.
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $idUsuario = $_SESSION["usuario_id"];
 
+    // Criação de uma nova liga pelo usuário logado.
     if ($step === "criar") {
         $nomeLiga = trim($_POST["nome_liga"] ?? "");
         $palavraChave = trim($_POST["palavra_chave"] ?? "");
@@ -81,6 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit;
         }
 
+        // Verifica se já existe uma liga com o mesmo nome.
         $sqlVerificar = "SELECT id_liga FROM ligas WHERE nome = :nome LIMIT 1";
         $stmtVerificar = $pdo->prepare($sqlVerificar);
         $stmtVerificar->bindValue(":nome", $nomeLiga);
@@ -92,10 +101,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         try {
+            // Usa transação para garantir que a liga e o vínculo do criador
+            // sejam salvos juntos. Se algo falhar, nada é gravado.
             $pdo->beginTransaction();
 
+            // Gera o hash da palavra-chave da liga antes de salvar no banco.
             $palavraChaveHash = password_hash($palavraChave, PASSWORD_DEFAULT);
 
+            // Insere a nova liga na tabela ligas.
             $sqlLiga = "INSERT INTO ligas (nome, palavra_chave_hash, id_criador)
                         VALUES (:nome, :palavra_chave_hash, :id_criador)";
 
@@ -127,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit;
         }
     }
-
+    // Entrada de um usuário em uma liga já existente.
     if ($step === "entrar") {
         $nomeLiga = trim($_POST["nome_liga"] ?? "");
         $palavraChave = trim($_POST["palavra_chave"] ?? "");
@@ -136,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: ligas.php?step=entrar&erro=" . urlencode("Preencha nome da liga e palavra-chave."));
             exit;
         }
-
+        // Busca a liga pelo nome informado pelo usuário.
         $sqlLiga = "SELECT id_liga, palavra_chave_hash
                     FROM ligas
                     WHERE nome = :nome
@@ -151,13 +164,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!$liga) {
             header("Location: ligas.php?step=entrar&erro=" . urlencode("Liga não encontrada."));
             exit;
-        }
-
+        
+        // Compara a palavra-chave digitada com o hash salvo no banco.
         if (!password_verify($palavraChave, $liga["palavra_chave_hash"])) {
             header("Location: ligas.php?step=entrar&erro=" . urlencode("Palavra-chave incorreta."));
             exit;
         }
-
+        // Verifica se o usuário já participa dessa liga.
         $sqlVerificarMembro = "SELECT id_usuario
                                FROM usuarios_ligas
                                WHERE id_usuario = :id_usuario
@@ -188,6 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 $minhasLigas = [];
 
+// Busca todas as ligas em que o usuário logado participa.
 $sqlMinhasLigas = "SELECT 
                     ligas.id_liga,
                     ligas.nome,
@@ -211,6 +225,7 @@ $ligaAtual = null;
 $rankingLigaGeral = [];
 $rankingLigaSemanal = [];
 
+// Tela de detalhes da liga, exibida apenas se o usuário participa dela.
 if ($step === "detalhes") {
     $idLiga = filter_input(INPUT_GET, "id_liga", FILTER_VALIDATE_INT);
 
@@ -242,6 +257,7 @@ if ($step === "detalhes") {
         exit;
     }
 
+    // Calcula o ranking geral da liga somando todas as partidas dos membros.
     $sqlRankingLigaGeral = "SELECT 
                                 usuarios.nome,
                                 COALESCE(SUM(partidas.pontos), 0) AS total_pontos
@@ -260,6 +276,7 @@ if ($step === "detalhes") {
 
     $rankingLigaGeral = $stmtRankingLigaGeral->fetchAll(PDO::FETCH_ASSOC);
 
+    // Calcula o ranking semanal da liga considerando apenas partidas dos últimos 7 dias.
     $sqlRankingLigaSemanal = "SELECT 
                                   usuarios.nome,
                                   COALESCE(SUM(partidas.pontos), 0) AS total_pontos
@@ -280,6 +297,7 @@ if ($step === "detalhes") {
     $rankingLigaSemanal = $stmtRankingLigaSemanal->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Calcula o ranking geral do sistema, considerando todos os usuários cadastrados.
 $rankingGeralSistema = [];
 $rankingSemanalSistema = [];
 
@@ -299,7 +317,7 @@ if ($step === "minhas") {
 
     $rankingGeralSistema = $stmtRankingGeralSistema->fetchAll(PDO::FETCH_ASSOC);
 
-
+    // Calcula o ranking semanal do sistema, considerando partidas dos últimos 7 dias.
     $sqlRankingSemanalSistema = "SELECT 
                                     usuarios.nome,
                                     COALESCE(SUM(partidas.pontos), 0) AS total_pontos
