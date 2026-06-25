@@ -164,6 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!$liga) {
             header("Location: ligas.php?step=entrar&erro=" . urlencode("Liga não encontrada."));
             exit;
+        }
         
         // Compara a palavra-chave digitada com o hash salvo no banco.
         if (!password_verify($palavraChave, $liga["palavra_chave_hash"])) {
