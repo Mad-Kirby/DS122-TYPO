@@ -80,6 +80,13 @@ if ( ["criar", "entrar"].includes(arrSearches.step) ) {
 }
 else if ( !(arrSearches.step == "detalhes") ) {
     /* == página step padrão: "minhas-ligas" == */
+    const lista_ligas = document.querySelectorAll(".liga-item");
+    lista_ligas.forEach( (element) => {
+        element.addEventListener("click", (e) => {
+            const link_element = element.querySelector("a");
+            link_element.click();
+        });
+    });
 }
 else {
     /* == página step "detalhes" == */
