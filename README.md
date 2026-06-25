@@ -110,10 +110,7 @@ Acesse:
 ```text
 http://127.0.0.1:8000/login.php
 ```
-ou 
-```text
-http://localhost:8000/login.php
-```
+
 ### Observação
 
 O endereço `http://127.0.0.1:8000` pode apresentar erro **Not Found** porque não existe uma página `index.php`.
