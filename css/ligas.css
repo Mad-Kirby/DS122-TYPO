@@ -402,8 +402,8 @@ tr:hover {
 .historico-tabela tbody td {
   font-size: clamp(1rem, 1.5vw, 1.4rem);
   color: var(--text);
-  text-align: center;
-  padding: 0.9rem 1rem;
+  text-align: left;
+  padding: 0.9rem 1.5rem;
 }
 
 .historico-tabela tbody tr:hover {
