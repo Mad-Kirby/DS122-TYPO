@@ -8,7 +8,7 @@
 </head>
 <body>
   <main class="container">
-    <button id="voltar-historico"class="btn back-button">← Voltar</button>
+    <button id="voltar-historico"class="btn back-button" onclick="history.back()">← Voltar</button>
 
     <section class="historico-card">
   <h1 class="historico-title">Histórico</h1>
