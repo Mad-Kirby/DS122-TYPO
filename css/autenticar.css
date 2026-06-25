@@ -9,9 +9,9 @@
   --accent: #20A8BD;
   --accent-2: #D6CD00;
   --accent-3: #DFD600;
-  --button-text: #3B4057;
+  --card-shadow: #00000040;
 }
-
+ 
 .error {
   color: var(--error);
 }
@@ -46,7 +46,7 @@ body {
   background: var(--card);
   border-radius: 44px;
   padding: 40px 54px 34px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 18px 40px var(--card-shadow);
 }
 
 .auth-title {
@@ -94,17 +94,17 @@ body {
   font-size: 1.15rem;
   font-weight: 700;
   padding: 0 28px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 0 0 1px var(--bg);
 }
 
 .field input::placeholder {
-  color: #7f8295;
+  color: var(--card);
   font-weight: 700;
   opacity: 1;
 }
 
 .field input:focus {
-  box-shadow: 0 0 0 3px rgba(32, 168, 189, 0.25);
+  box-shadow: 0 0 0 3px var(--accent);
 }
 
 .field .msg-erro {

@@ -43,7 +43,7 @@ O uso de IA foi permitido para as seguintes finalidades:
 
   1. "Como faço a conexão do PHP com o MySQL usando PDO?"
   2. "Quero usar um arquivo .env para guardar os dados de acesso ao banco."
-* **Resumo da Resposta da IA:** A IA explicou como criar um arquivo de conexão com PDO, carregar as informações do `.env` e evitar deixar credenciais diretamente no código.
+* **Resumo da Resposta da IA:** A IA explicou como criar um arquivo de conexão com PDO, carregar as informações do `.env` e evitar deixar credenciais diretamente no có digo.
 * **Análise e Aplicação:** A lógica foi adaptada ao projeto sem uso de frameworks back-end. Também foi criado um `.gitignore` para impedir o envio do arquivo `.env` ao repositório.
 * **Referência no Código:** Arquivos `includes/conexao.php`, `.env` e `.gitignore`.
 
@@ -139,5 +139,15 @@ O uso de IA foi permitido para as seguintes finalidades:
 * **Análise e Aplicação:** Os ajustes foram aplicados para melhorar a consistência entre front-end e back-end, especialmente na validação do campo de login.
 * **Referência no Código:** Arquivos `js/login.js`, `login.php`, `js/jogo.js` e `jogo.php`.
 
+### Interação 9
 
+* **Data:** 16/06/26 - 23/06/12
+* **Etapa do projeto:** Formatação CSS
+* **Ferramenta IA Utilizada:** Perplexity
+
+* **Objetivo:** Auxiliar na organização, padronização e melhoria visual das páginas do projeto, garantindo consistência entre layout, cores, tipografia, botões, cards e responsividade.
+
+* **Aplicação no Projeto:** A IA foi usada para apoiar a criação e o ajuste dos estilos das telas de autenticação, instruções do jogo, área principal do jogo e ligas, além de orientar melhorias de espaçamento, tamanhos mínimos, responsividade e comportamento dos componentes na interface.
+
+* **Referência no Código:** Arquivos 'autenticar.css', 'como-jogar.css', 'jogo.css', 'ligas.css'.
 ---
