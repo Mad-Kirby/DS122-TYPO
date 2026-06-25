@@ -1,6 +1,6 @@
 # DS122-TYPO
 
-Projeto de desenvolvimento Web em PHP e MySQL.
+Projeto de desenvolvimento Web em PHP e MySQL. Por Ana Turko, Carlos Schatte, Gabriel Jaremczyk e Henrique Santini
 
 ## O que é
 
